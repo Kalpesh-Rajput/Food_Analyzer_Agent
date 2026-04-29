@@ -1,10 +1,45 @@
+# Python
 venv/
 .venv/
-
+env/
 .env
 __pycache__/
 *.pyc
 *.pyo
-*.pyd   
+*.pyd
+.Python
+*.so
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-sample_images/  
+# Node / React
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sample/Test data
+sample_images/
