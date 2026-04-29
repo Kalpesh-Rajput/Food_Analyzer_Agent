@@ -1,0 +1,308 @@
+.result-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(99, 255, 172, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: slideUp 0.6s ease-out;
+}
+
+.verdict-header {
+  padding: 25px;
+  border-bottom: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.verdict-header.verdict-green {
+  background: rgba(34, 197, 94, 0.08);
+  border-bottom-color: rgba(34, 197, 94, 0.3);
+}
+
+.verdict-header.verdict-yellow {
+  background: rgba(234, 179, 8, 0.08);
+  border-bottom-color: rgba(234, 179, 8, 0.3);
+}
+
+.verdict-header.verdict-red {
+  background: rgba(239, 68, 68, 0.08);
+  border-bottom-color: rgba(239, 68, 68, 0.3);
+}
+
+.verdict-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.verdict-emoji {
+  font-size: 2.5rem;
+}
+
+.verdict-header h3 {
+  font-size: 1.6rem;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.verdict-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.message-section {
+  padding: 20px 25px;
+  border-bottom: 1px solid rgba(99, 255, 172, 0.1);
+}
+
+.main-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.insights-section,
+.nutrition-section,
+.ingredients-section,
+.claims-section {
+  padding: 20px 25px;
+  border-bottom: 1px solid rgba(99, 255, 172, 0.1);
+}
+
+.insights-section h4,
+.nutrition-section h4,
+.ingredients-section h4,
+.claims-section h4 {
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(99, 255, 172, 0.8);
+}
+
+.insights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.insight-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.insight-text {
+  flex: 1;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.nutrition-item {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(99, 255, 172, 0.1);
+}
+
+.nutrition-item .label {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.nutrition-item .value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #63ffac;
+}
+
+.claims-section {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.claims-section.warning {
+  border-left: 4px solid #ff6b6b;
+}
+
+.claims-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.claim-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #ff6b6b;
+}
+
+.claim-title {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.claim-reality {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  color: #ff9999;
+}
+
+.severity {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.severity-high {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ff6b6b;
+}
+
+.severity-medium {
+  background: rgba(234, 179, 8, 0.2);
+  color: #ffd700;
+}
+
+.severity-low {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.ingredients-section {
+  padding: 20px 25px;
+}
+
+.ingredient-subsection {
+  margin-bottom: 15px;
+}
+
+.ingredient-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.ingredient-subsection h5 {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ingredient-subsection.warning h5 {
+  color: #ffd700;
+}
+
+.ingredient-subsection.alert h5 {
+  color: #ff6b6b;
+}
+
+.ingredient-list {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+.debug-section {
+  padding: 15px 25px;
+  border-top: 1px solid rgba(99, 255, 172, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.debug-section summary {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  padding: 5px;
+  margin: -5px;
+}
+
+.debug-section summary:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.debug-section pre {
+  margin: 10px 0 0 0;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: rgba(99, 255, 172, 0.7);
+  overflow-x: auto;
+  max-height: 200px;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .result-card {
+    border-radius: 12px;
+  }
+
+  .verdict-header {
+    padding: 15px;
+  }
+
+  .verdict-emoji {
+    font-size: 2rem;
+  }
+
+  .verdict-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .insights-section,
+  .nutrition-section,
+  .ingredients-section,
+  .claims-section {
+    padding: 15px;
+  }
+
+  .nutrition-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .main-message {
+    font-size: 1rem;
+  }
+}
