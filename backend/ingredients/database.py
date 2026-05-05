@@ -79,6 +79,7 @@ class IngredientDatabase:
             if harmful_ing in ingredient_lower:
                 return {
                     "ingredient": ingredient,
+                    "name": ingredient,
                     "type": "harmful",
                     **risk_data
                 }
@@ -91,6 +92,7 @@ class IngredientDatabase:
             if additive_code in self.additives:
                 return {
                     "ingredient": ingredient,
+                    "name": self.additives[additive_code].get("name", ingredient),
                     "type": "additive",
                     **self.additives[additive_code]
                 }
@@ -100,6 +102,7 @@ class IngredientDatabase:
             if warning_ingredient in ingredient_lower:
                 return {
                     "ingredient": ingredient,
+                    "name": ingredient,
                     "type": "allergen",
                     "risk": "high",
                     "warning": warning_msg
