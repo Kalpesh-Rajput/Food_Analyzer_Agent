@@ -1,7 +1,11 @@
 """Rule-based health analysis engine (NOT LLM)."""
 
 from typing import Dict, List, Tuple
-from backend.models import NutritionData
+
+try:
+    from models import NutritionData
+except ModuleNotFoundError:
+    from backend.models import NutritionData
 
 
 class RuleEngine:
@@ -46,17 +50,28 @@ class RuleEngine:
         sugar_g = nutrition.get("sugar_g", 0)
         if sugar_g:
             sugar_tsp = round(sugar_g / self.SUGAR_PER_TEASPOON, 1)
-            insights.append(f"Sugar: {sugar_g}g = {sugar_tsp} tsp")
-            
+            sugar_tbsp = round(sugar_g / 12.0, 1)
+            insights.append(
+                f"Sugar: {sugar_g}g (~{sugar_tsp} tsp, {sugar_tbsp} tbsp)."
+            )
             if sugar_g > 15:
-                penalty = min(30, (sugar_g - 5) * 2)  # Heavy penalty
+                penalty = min(30, (sugar_g - 5) * 2)
                 score -= penalty
                 penalties.append(f"High sugar ({sugar_g}g)")
             elif sugar_g > 5:
                 penalty = (sugar_g - 5) * 1.5
                 score -= penalty
                 penalties.append(f"Moderate sugar ({sugar_g}g)")
-        
+
+        calories = nutrition.get("energy_kcal", 0)
+        if calories:
+            distance = self.get_running_distance(calories)
+            insights.append(f"Energy: {calories} kcal — about {distance} to burn.")
+            if calories > 450:
+                penalty = min(20, (calories - 250) / 10)
+                score -= penalty
+                penalties.append(f"High calories ({calories} kcal)")
+
         # ─── Sodium Analysis ────────────────────────────────────────────────
         sodium_mg = nutrition.get("sodium_mg", 0)
         if sodium_mg:
@@ -82,7 +97,7 @@ class RuleEngine:
         protein_g = nutrition.get("protein_g", 0)
         if protein_g and protein_g > 10:
             insights.append(f"✓ Good protein: {protein_g}g")
-            score += 5  # Bonus for good protein
+            score += 5
         
         # ─── Fiber Analysis ─────────────────────────────────────────────────
         fiber_g = nutrition.get("fiber_g", 0)
@@ -100,26 +115,23 @@ class RuleEngine:
             score -= penalty
             penalties.append(f"{len(harmful_count)} harmful ingredient(s)")
             for item in harmful_count:
-                insights.append(f"🚨 {item['name']}: {item.get('warning', '')}")
-        
+                ingredient_name = item.get("name") or item.get("ingredient") or "Unknown"
+                insights.append(f"🚨 {ingredient_name}: {item.get('warning', '')}")
+
         if allergen_count:
             penalty = len(allergen_count) * 5
             score -= penalty
             for item in allergen_count:
-                insights.append(f"⚠️  {item['warning']}")
-        
+                insights.append(f"⚠️  {item.get('warning', '')}")
+
         if additive_count:
             high_risk = [a for a in additive_count if a.get("risk") == "high"]
             if high_risk:
                 penalty = len(high_risk) * 8
                 score -= penalty
                 for item in high_risk:
-                    insights.append(f"⚠️  {item.get('name', '')}: {item.get('warning', '')}")
-        
-        # ─── Ultra-processed check ──────────────────────────────────────────
-        total_additives = len(harmful_count) + len(additive_count)
-        if total_additives > 5:
-            score -= 20
+                    additive_name = item.get("name") or item.get("ingredient") or "Additive"
+                    insights.append(f"⚠️  {additive_name}: {item.get('warning', '')}")
             penalties.append("Ultra-processed (many additives)")
             insights.append("🚨 This is basically industrial food")
         
@@ -154,6 +166,15 @@ class RuleEngine:
         else:
             return "Heavy stuff - basically a meal"
     
+    def get_running_distance(self, calories: float) -> str:
+        """Estimate running distance needed to burn the calories."""
+        if not calories:
+            return "less than 1 km"
+        km = calories / 60.0
+        if km < 1:
+            return "under 1 km"
+        return f"{km:.1f} km"
+
     def get_sugar_comparison(self, sugar_g: float) -> str:
         """Convert sugar to relatable comparison."""
         if not sugar_g:

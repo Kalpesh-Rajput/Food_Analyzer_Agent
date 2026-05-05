@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     
     # Server
     HOST: str = "127.0.0.1"
-    PORT: int = 8000
+    PORT: int = 8001
     DEBUG: bool = True
     CORS_ORIGINS: list = ["*"]
     
@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"
 
 
 settings = Settings()

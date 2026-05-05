@@ -17,12 +17,26 @@ function ChatPage({ image, onBack }) {
   const analyzeImage = async () => {
     setLoading(true)
     setError(null)
+    setMessages([
+      {
+        type: 'user',
+        content: 'Image uploaded',
+        image: image,
+      },
+      {
+        type: 'loading',
+        content: 'Analyzing...',
+      },
+    ])
 
     try {
       const analysisResult = await analyzeFood(image)
       setResult(analysisResult)
 
-      // Add message bubble
+      const assistantText =
+        analysisResult?.message ||
+        'Analysis complete. See the result card below.'
+
       setMessages([
         {
           type: 'user',
@@ -30,27 +44,13 @@ function ChatPage({ image, onBack }) {
           image: image,
         },
         {
-          type: 'loading',
-          content: 'Analyzing...',
+          type: 'assistant',
+          content: assistantText,
         },
       ])
-
-      // Replace loading with result
-      setTimeout(() => {
-        setMessages([
-          {
-            type: 'user',
-            content: 'Image uploaded',
-            image: image,
-          },
-          {
-            type: 'assistant',
-            content: analysisResult,
-          },
-        ])
-      }, 800)
     } catch (err) {
-      setError(err.message || 'Failed to analyze food. Please try again.')
+      const errorMessage = err?.message || 'Failed to analyze food. Please try again.'
+      setError(errorMessage)
       setMessages([
         {
           type: 'user',
@@ -59,7 +59,7 @@ function ChatPage({ image, onBack }) {
         },
         {
           type: 'error',
-          content: error || 'Analysis failed',
+          content: errorMessage,
         },
       ])
     } finally {
