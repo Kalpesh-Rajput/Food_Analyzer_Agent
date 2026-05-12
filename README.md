@@ -10,15 +10,44 @@
 
 ## 🎯 Features
 
+✅ **AI-Powered Analysis** - LangGraph agent orchestrates intelligent multi-step food analysis
 ✅ **Mobile & Desktop Friendly** - Works on any device with a camera or file upload
 ✅ **Advanced OCR** - Multi-engine OCR with preprocessing (contrast, sharpening, deskewing)
+✅ **Intelligent Extraction** - LLM-based parsing of nutrition, ingredients, and claims
 ✅ **Misleading Claim Detection** - Detects marketing lies (e.g., "100% fruit" claims)
-✅ **Rule-Based Analysis** - Deterministic health scoring (NOT LLM hype)
+✅ **Comprehensive Health Scoring** - Balanced analysis of nutrition and ingredients
 ✅ **Ingredient Intelligence** - Database of harmful ingredients and additives
-✅ **Witty Feedback** - Short, honest, slightly sarcastic responses
+✅ **User-Friendly Messages** - Conversational, honest feedback like a knowledgeable friend
 ✅ **Real-Time Analysis** - Instant results, no waiting
 
-## 📦 What's Inside
+## 🤖 AI Agent Architecture
+
+This project features a **LangGraph-based intelligent agent** that orchestrates the entire food analysis workflow:
+
+### Agent Workflow
+1. **📝 Extract Information** - LLM parses product name, nutrition, ingredients, claims
+2. **🔍 Analyze Ingredients** - Categorizes additives, allergens, harmful substances
+3. **📊 Score Health** - Calculates balanced health score (0-100)
+4. **⚠️ Detect Misleading Claims** - Identifies potentially deceptive marketing
+5. **💡 Generate Insights** - Creates actionable health recommendations
+6. **💬 Create Message** - Generates friendly, conversational feedback
+
+### Why LangGraph?
+- **State Management**: Maintains context throughout the analysis pipeline
+- **Error Handling**: Graceful degradation when steps fail
+- **Modularity**: Each analysis step is independent and testable
+- **Scalability**: Easy to add new analysis steps or modify existing ones
+
+### Key Improvements Over Regex-Based Parsing
+| Aspect | Previous Version | LangGraph Agent |
+|--------|------------------|------------------|
+| **Accuracy** | Limited regex patterns | Context-aware LLM understanding |
+| **Flexibility** | Brittle to label variations | Adapts to different formats |
+| **Analysis Depth** | Basic extraction | Comprehensive categorization |
+| **User Experience** | Generic feedback | Personalized, friendly messages |
+| **Maintenance** | Complex regex updates | Simple prompt modifications |
+
+See [`backend/AGENT_README.md`](backend/AGENT_README.md) for detailed agent documentation.
 
 ```
 food_analyzer_agent/
@@ -27,6 +56,8 @@ food_analyzer_agent/
 │   ├── config.py               # Configuration management
 │   ├── models.py               # Pydantic models
 │   ├── requirements.txt         # Python dependencies
+│   ├── AGENT_README.md         # LangGraph agent documentation
+│   ├── test_agent.py           # Agent testing script
 │   ├── ocr/
 │   │   ├── preprocessor.py    # Image preprocessing (contrast, denoise, etc)
 │   │   └── engine.py          # Multi-OCR engine (Tesseract + Vision)
@@ -36,6 +67,7 @@ food_analyzer_agent/
 │   │   ├── rule_engine.py     # Deterministic health scoring
 │   │   └── claim_detector.py  # Detect misleading claims
 │   └── llm/
+│       ├── food_agent.py      # LangGraph-based analysis agent
 │       └── message_generator.py # LLM for witty messages only
 │
 ├── frontend/
