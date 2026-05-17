@@ -52,8 +52,8 @@ button {
 
 .hero-panel h1 {
   margin: 0;
-  font-size: clamp(2.4rem, 4vw, 4rem);
-  line-height: 1.02;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
 }
 
 .hero-copy {
@@ -339,6 +339,38 @@ button:hover {
 .response-box.small {
   padding: 12px;
   font-size: 0.95rem;
+}
+
+.response-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  white-space: pre-wrap;
+  color: #e5e7eb;
+}
+
+.response-section h4 {
+  margin: 0;
+  margin-bottom: 8px;
+  color: #60a5fa;
+  font-size: 1rem;
+}
+
+.response-section p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.response-section ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #e2e8f0;
+}
+
+.response-section li {
+  margin-bottom: 6px;
+  line-height: 1.6;
 }
 
 .ingredient-item {
