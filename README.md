@@ -1,521 +1,194 @@
-# 🥗 Food Analyzer - Know What You're Eating
+# 🥗 Food Analyzer
 
-> Advanced food product analyzer using AI vision, OCR, and intelligent health scoring.
-> Detects misleading marketing claims and provides honest nutritional insights.
+A premium, web-first food analyzer project with a clean backend/frontend separation.
 
-![React](https://img.shields.io/badge/React-18-blue?logo=react)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green?logo=fastapi)
-![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)
-![License](https://img.shields.io/badge/License-MIT-green)
-
-## 🎯 Features
-
-
-✅ **AI-Powered Analysis** - LangGraph agent orchestrates intelligent multi-step food analysis
-✅ **Mobile & Desktop Friendly** - Works on any device with a camera or file upload
-✅ **Advanced OCR** - Multi-engine OCR with preprocessing (contrast, sharpening, deskewing)
-✅ **Intelligent Extraction** - LLM-based parsing of nutrition, ingredients, and claims
-✅ **Misleading Claim Detection** - Detects marketing lies (e.g., "100% fruit" claims)
-✅ **Comprehensive Health Scoring** - Balanced analysis of nutrition and ingredients
-✅ **Ingredient Intelligence** - Database of harmful ingredients and additives
-✅ **User-Friendly Messages** - Conversational, honest feedback like a knowledgeable friend
-✅ **Real-Time Analysis** - Instant results, no waiting
-
-## 🤖 AI Agent Architecture
-
-This project features a **LangGraph-based intelligent agent** that orchestrates the entire food analysis workflow:
-
-### Agent Workflow
-1. **📝 Extract Information** - LLM parses product name, nutrition, ingredients, claims
-2. **🔍 Analyze Ingredients** - Categorizes additives, allergens, harmful substances
-3. **📊 Score Health** - Calculates balanced health score (0-100)
-4. **⚠️ Detect Misleading Claims** - Identifies potentially deceptive marketing
-5. **💡 Generate Insights** - Creates actionable health recommendations
-6. **💬 Create Message** - Generates friendly, conversational feedback
-
-### Why LangGraph?
-- **State Management**: Maintains context throughout the analysis pipeline
-- **Error Handling**: Graceful degradation when steps fail
-- **Modularity**: Each analysis step is independent and testable
-- **Scalability**: Easy to add new analysis steps or modify existing ones
-
-### Key Improvements Over Regex-Based Parsing
-| Aspect | Previous Version | LangGraph Agent |
-|--------|------------------|------------------|
-| **Accuracy** | Limited regex patterns | Context-aware LLM understanding |
-| **Flexibility** | Brittle to label variations | Adapts to different formats |
-| **Analysis Depth** | Basic extraction | Comprehensive categorization |
-| **User Experience** | Generic feedback | Personalized, friendly messages |
-| **Maintenance** | Complex regex updates | Simple prompt modifications |
-
-See [`backend/AGENT_README.md`](backend/AGENT_README.md) for detailed agent documentation.
+## 📁 New Architecture
 
 ```
 food_analyzer_agent/
-├── backend/
-│   ├── main.py                 # FastAPI application
-│   ├── config.py               # Configuration management
-│   ├── models.py               # Pydantic models
-│   ├── requirements.txt         # Python dependencies
-│   ├── AGENT_README.md         # LangGraph agent documentation
-│   ├── test_agent.py           # Agent testing script
-│   ├── ocr/
-│   │   ├── preprocessor.py    # Image preprocessing (contrast, denoise, etc)
-│   │   └── engine.py          # Multi-OCR engine (Tesseract + Vision)
-│   ├── ingredients/
-│   │   └── database.py        # Ingredient risk database
-│   ├── analysis/
-│   │   ├── rule_engine.py     # Deterministic health scoring
-│   │   └── claim_detector.py  # Detect misleading claims
-│   └── llm/
-│       ├── food_agent.py      # LangGraph-based analysis agent
-│       └── message_generator.py # LLM for witty messages only
-│
-├── frontend/
-│   ├── package.json
-│   ├── vite.config.js
+├── backend/             # Python API + agent logic
+│   ├── agent/           # LangGraph agent modules
+│   ├── utils/           # image helpers and validation
+│   ├── tests/           # backend unit tests
+│   ├── sample_images/   # legacy test images
+│   ├── api.py           # FastAPI backend entrypoint
+│   ├── main.py          # CLI entrypoint (legacy)
+│   ├── legacy_app.py    # Streamlit prototype UI
+│   ├── requirements.txt
+│   ├── pytest.ini
+│   └── .env.example
+├── frontend/            # React dashboard UI
 │   ├── index.html
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── vite.config.ts
 │   └── src/
-│       ├── main.jsx
-│       ├── App.jsx
-│       ├── pages/
-│       │   ├── HomePage.jsx   # Upload/Camera screen
-│       │   └── ChatPage.jsx   # Results display
-│       ├── components/
-│       │   ├── ResultCard.jsx # Detailed results
-│       │   └── MessageBubble.jsx # Chat UI
-│       ├── services/
-│       │   └── api.js         # API client
-│       └── utils/
-│           └── imageUtils.js  # Image compression
-│
-├── .env.example
-├── README.md
-└── Project Structure Diagram (below)
+│       ├── App.tsx
+│       ├── main.tsx
+│       ├── styles.css
+│       └── types.ts
+├── .gitignore
+└── README.md
 ```
 
-## 🚀 Quick Start (5 minutes)
+## 🚀 Quick Start
 
-### Prerequisites
-- **Python 3.9+** (for backend)
-- **Node.js 18+** (for frontend)
-- **Tesseract OCR** (optional but recommended)
+### Backend
 
-### Step 1: Install Tesseract (Recommended)
-
-**Windows:**
-1. Download installer: https://github.com/UB-Mannheim/tesseract/wiki
-2. Run installer (default path: `C:\Program Files\Tesseract-OCR`)
-
-**Mac:**
-```bash
-brew install tesseract
-```
-
-**Linux (Ubuntu/Debian):**
-```bash
-sudo apt-get install tesseract-ocr
-```
-
----
-
-## 📋 Full Setup Instructions
-
-### Backend Setup
-
-#### Step 1: Navigate to backend directory
 ```bash
 cd backend
-```
-
-#### Step 2: Create Python virtual environment
-```bash
-# Windows
 python -m venv venv
-venv\Scripts\activate
-
-# Mac/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-#### Step 3: Install dependencies
-```bash
+venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 ```
 
-**Note:** If you don't have Tesseract installed, the backend will still work using the vision API fallback (but accuracy may be lower).
+Create a `.env` file from the example:
 
-#### Step 4: Configure environment variables
 ```bash
-# Copy example to .env
-cp .env.example .env
-
-# Edit .env and add:
-OPENAI_API_KEY=sk-your-key-here
-# TESSERACT_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe  # Windows only
+copy .env.example .env
 ```
 
-#### Step 5: Run FastAPI server
+Then run the backend API:
+
 ```bash
-python main.py
+uvicorn api:app --reload --host 0.0.0.0 --port 8000
 ```
 
-You should see:
-```
-INFO:     Uvicorn running on http://127.0.0.1:8000
-INFO:     Application startup complete
-```
+### Frontend
 
-Test the API:
-```bash
-curl http://localhost:8000/health
-# Response: {"status":"ok","service":"Food Analyzer API"}
-```
-
----
-
-### Frontend Setup
-
-#### Step 1: Navigate to frontend directory
 ```bash
 cd frontend
-```
-
-#### Step 2: Install dependencies
-```bash
 npm install
-```
-
-#### Step 3: Start development server
-```bash
 npm run dev
 ```
 
-You should see:
-```
-  VITE v5.1.0  ready in 123 ms
+Open the URL shown by Vite (usually `http://localhost:5173`).
 
-  ➜  Local:   http://127.0.0.1:3000/
-  ➜  press h + enter to show help
-```
+## 🔧 Notes
 
-#### Step 4: Open in browser
-- Go to **http://localhost:3000**
-- Select "Scan Product" or "Upload Image"
-- Upload a food product image
-- View instant analysis!
+- The frontend sends uploads to `http://localhost:8000/analyze`.
+- The backend serves the AI analysis using the existing LangGraph agent logic.
+- The React UI is designed as a premium dashboard experience with upload, webcam capture, and verdict cards.
 
----
+## 🧪 Backend CLI (Legacy)
 
-## 🔄 System Architecture
+The old CLI entrypoint remains under `backend/main.py`.
 
-```
-User uploads image
-        ↓
-    React Frontend (Port 3000)
-        ↓
-  API Call (/analyze-food)
-        ↓
-    FastAPI Backend (Port 8000)
-        ↓
-    Image Preprocessing
-    (contrast, sharpen, denoise, deskew)
-        ↓
-    Multi-OCR Engine
-    (Tesseract + Vision API fallback)
-        ↓
-    Text Extraction & Parsing
-    (nutrition, ingredients, claims)
-        ↓
-    Ingredient Database Lookup
-    (risk levels, additives, allergens)
-        ↓
-    Rule Engine Analysis
-    (health scoring 0-100)
-        ↓
-    Misleading Claim Detection
-    (compare claims vs reality)
-        ↓
-    LLM Message Generation
-    (only for final witty message)
-        ↓
-    JSON Response
-        ↓
-    React UI Display
-```
-
----
-
-## 📊 API Usage
-
-### Endpoint: `POST /analyze-food`
-
-#### Request
 ```bash
-curl -X POST http://localhost:8000/analyze-food \
-  -H "Content-Type: application/json" \
-  -d '{
-    "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRg...",
-    "user_message": "Is this healthy for kids?"
-  }'
+cd backend
+python main.py analyze --images ./sample_images/noodles.jpg
 ```
 
-#### Response
-```json
-{
-  "verdict": "Unhealthy",
-  "score": "🔴",
-  "health_score": 35,
-  "product_name": "Sugary Cereal",
-  "insights": [
-    {
-      "icon": "🔴",
-      "text": "Sugar: 12g = 3 tsp"
+## 📌 Environment
+
+Your backend `.env` should include:
+
+```text
+OPENAI_API_KEY=sk-your-key-here
+LLM_PROVIDER=openai
+```
+
+### State Flow
+
+```python
+FoodAgentState = {
+    # INPUT
+    "image_paths": ["./label.jpg"],
+    "user_message": "optional question",
+
+    # AFTER NODE 1 (extraction)
+    "product_name": "Maggi Noodles",
+    "extracted_nutrition": { "sodium_mg": 1247, "fat_g": 20.1, ... },
+    "extracted_ingredients": { "ingredient_list": [...], "additives": [...] },
+    "raw_ocr_text": "...",
+
+    # AFTER NODE 2 (analysis)
+    "food_analysis": {
+        "overall_verdict": "UNHEALTHY",
+        "harmful_ingredients": [...],
+        "fun_comparisons": ["Sugar = 3 teaspoons", ...],
+        "buy_or_avoid": "Skip it.",
+        ...
     },
-    {
-      "icon": "⚠️",
-      "text": "High sugar (12g)"
-    },
-    {
-      "icon": "🚨",
-      "text": "Contains artificial dyes"
-    }
-  ],
-  "nutrition": {
-    "energy_kcal_per_100g": 380,
-    "sugar_g": 12,
-    "sodium_mg": 150,
-    "fat_g": 2,
-    "protein_g": 8,
-    "fiber_g": 1
-  },
-  "ingredients": {
-    "ingredient_list": ["wheat flour", "sugar", "corn syrup", "salt"],
-    "additives": ["e102", "e110"],
-    "allergens": ["wheat"]
-  },
-  "misleading_claims": [
-    {
-      "claim": "100% Whole Grain",
-      "reality": "Contains only 40% whole grain, rest is refined flour",
-      "severity": "high"
-    }
-  ],
-  "message": "Marketing says whole grain. Reality says mostly sugar and additives. This is candy disguised as cereal."
+
+    # AFTER NODE 3 (formatting)
+    "final_response": "🔴 VERDICT: UNHEALTHY\n..."
 }
 ```
 
----
+### What Gets Flagged
 
-## 🧪 Example Workflows
-
-### Example 1: Analyzing a Snack Bar
-
-1. **User action:** Upload image of protein bar
-2. **OCR extracts:**
-   - Ingredients: "Whey protein isolate, sugar, palm oil..."
-   - Nutrition: Sugar 5g, Protein 20g, Fat 8g
-   - Claims: "High protein", "Natural"
-
-3. **Analysis:**
-   - Rule engine: Score 65/100 (Okay)
-   - Claim detection: "Natural" claim conflicts with artificial sweeteners
-   - Insights: ✅ Good protein, ⚠️ High fat, 🚨 Misleading "natural" claim
-
-4. **Message:** "Good protein source, but 'natural' is a stretch with those additives."
-
-### Example 2: Detecting Ultra-Processed Food
-
-1. **User action:** Upload candy packaging
-2. **OCR extracts:**
-   - Ingredients: 15+ items including multiple artificial dyes
-   - Claims: "Made with real sugar"
-
-3. **Analysis:**
-   - Ingredient DB flags: E102, E110, E129 (artificial dyes)
-   - Rule engine: Score 15/100 (Unhealthy)
-   - Multiple high-risk additives = ultra-processed penalty
-
-4. **Message:** "This is basically just industrial chemicals. Even for candy, this is extreme."
+| Issue | Threshold |
+|-------|-----------|
+| Trans fat | Any amount > 0 |
+| High sodium | > 400mg per serving |
+| High sugar | > 5g per serving |
+| Saturated fat | > 10% daily RDA |
+| Ultra-processed | Maida as primary ingredient |
+| Additives | Multiple INS codes present |
+| Flavour enhancers | INS 627, 631 (purine concern) |
 
 ---
 
-## 🔧 Advanced Configuration
+## 📱 Integrating Into Your Android/iOS App (Next Steps)
 
-### Backend Environment Variables
+This agent is designed as a pure Python backend. When you're ready to build the mobile app:
 
-```bash
-# LLM Configuration
-LLM_PROVIDER=openai              # or "anthropic"
-LLM_MODEL=gpt-4o-mini
-OPENAI_API_KEY=sk-xxx
-ANTHROPIC_API_KEY=claude-xxx
-
-# OCR Configuration
-USE_TESSERACT=true
-TESSERACT_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe
-
-# Server
-HOST=127.0.0.1
-PORT=8000
-DEBUG=true
-
-# Image Processing
-MAX_IMAGE_SIZE_MB=10
-COMPRESSION_QUALITY=85
-```
-
-### Customize Ingredient Database
-
-Edit `backend/ingredients/database.py`:
-
+### Option A: FastAPI REST endpoint
 ```python
-def _load_harmful(self) -> Dict:
-    return {
-        "my_ingredient": {"risk": "high", "warning": "My custom warning"},
-    }
+# api.py (add this later)
+from fastapi import FastAPI, UploadFile
+from agent.graph import food_analyzer
+
+app = FastAPI()
+
+@app.post("/analyze")
+async def analyze_food(files: list[UploadFile]):
+    # save files → run agent → return JSON
+    ...
 ```
 
----
+### Option B: Firebase Function / Cloud Run
+Deploy `api.py` to Google Cloud Run and call it from your mobile app.
 
-## 📱 Frontend Features
-
-### Home Screen
-- 📸 Scan with camera (mobile)
-- 📤 Upload from device
-- Visual feedback during processing
-
-### Results Screen
-- 🎨 Color-coded verdict (🟢 Healthy, 🟡 Okay, 🔴 Unhealthy)
-- 📊 Nutrition facts display
-- ⚠️ Ingredient warnings
-- 🚨 Misleading claims
-- 💬 Short, witty message
+### Option C: Direct SDK (React Native)
+Use the Anthropic SDK directly in React Native with vision capabilities.
 
 ---
 
-## 🛠️ Troubleshooting
+## 🔑 Key Design Decisions
 
-### Problem: "ModuleNotFoundError: No module named 'pytesseract'"
-**Solution:** Install Python dependencies
-```bash
-cd backend
-pip install -r requirements.txt
-```
+**Why LangGraph?**
+- Each node is independently testable
+- Easy to add new nodes (e.g. allergen checker, price analyzer)
+- Built-in state management — no manual passing of data
+- Ready for async/streaming when you need it for the app
 
-### Problem: "Tesseract not found"
-**Solution:** Install Tesseract (see prerequisites) or set path in `.env`:
-```
-TESSERACT_PATH=/usr/bin/tesseract  # Linux
-TESSERACT_PATH=/usr/local/bin/tesseract  # Mac
-TESSERACT_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe  # Windows
-```
+**Why Claude Vision?**
+- Best-in-class OCR for food labels
+- Single API handles both image reading AND analysis
+- Handles multiple images in one call (ingredients + nutrition on separate panels)
 
-### Problem: "OPENAI_API_KEY not set"
-**Solution:** Add your key to `.env`:
-```
-OPENAI_API_KEY=sk-your-actual-key-here
-```
-
-### Problem: CORS error when frontend calls backend
-**Solution:** Ensure backend is running on `http://127.0.0.1:8000` and frontend on `http://127.0.0.1:3000`
-
-### Problem: Image too large or processing slow
-**Solution:** Image is automatically compressed. Adjust in `.env`:
-```
-COMPRESSION_QUALITY=70  # Lower = smaller file, faster processing
-```
+**Why 3 nodes instead of 1?**
+- Separation of concerns: extract → analyze → format
+- If extraction fails, you still get a graceful error
+- Can swap the analysis logic without touching OCR logic
+- Easier to debug which step failed
 
 ---
 
-## 📊 Health Scoring Rules
+## 🚀 Roadmap for Full App
 
-### Scoring Formula
-
-**Base:** Start at 100 points
-
-**Deductions:**
-- Sugar > 15g: -30 points
-- Sugar 5-15g: -1.5 per gram
-- Sodium > 500mg: -25 points
-- High saturated fat: -20 points
-- Each harmful ingredient: -10 points
-- Each allergen: -5 points
-- High-risk additive: -8 points
-- Ultra-processed (>5 additives): -20 points
-
-**Bonuses:**
-- Protein > 10g: +5 points
-- Fiber > 3g: +5 points
-
-**Verdict:**
-- ≥70 points: 🟢 Healthy
-- 50-69 points: 🟡 Okay
-- <50 points: 🔴 Unhealthy
+- [ ] FastAPI server wrapping this agent
+- [ ] Support for camera stream (base64 from mobile)
+- [ ] Barcode scanning → auto product lookup
+- [ ] User profile (allergies, dietary restrictions)
+- [ ] History tracking (what they've scanned)
+- [ ] Comparison mode (product A vs product B)
+- [ ] Android/iOS app with camera integration
 
 ---
 
-## 🚀 Deployment (Optional)
+## 📝 License
 
-### Backend (Render, Heroku, etc)
-1. Push to GitHub
-2. Connect repository
-3. Set environment variables
-4. Deploy
-
-### Frontend (Vercel, Netlify, etc)
-1. Build: `npm run build`
-2. Deploy `dist/` folder
-3. Set API endpoint to your backend URL
-
----
-
-## 📝 Development Notes
-
-### OCR Improvements
-- Uses Tesseract for accurate text extraction
-- Image preprocessing: contrast enhancement (CLAHE), denoising, sharpening, deskewing
-- Fallback to vision API for better handling of rotated/distorted text
-- Confidence scoring for extracted data
-
-### Rule Engine (Not LLM)
-- Deterministic, reproducible results
-- No "AI hallucination" from LLM guessing
-- Fast, reliable health scoring
-- Only LLM used: final message generation (for tone/wit)
-
-### Misleading Claim Detection
-- Checks for 10+ common misleading claims
-- Compares claims against actual ingredients
-- Severity rating (high/medium/low)
-- Examples: "100% fruit" vs high sugar, "natural" vs artificial additives
-
----
-
-## 🤝 Contributing
-
-Found a bug? Have an improvement?
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push and create a Pull Request
-
----
-
-## 📄 License
-
-MIT License - feel free to use this project!
-
----
-
-## 🙏 Acknowledgments
-
-- Tesseract OCR team for open-source text recognition
-- OpenAI for vision API and language models
-- React and FastAPI communities
-
----
-
-**Last Updated:** April 2026
-**Status:** ✅ Full Production Ready
+MIT — use freely for your startup.
