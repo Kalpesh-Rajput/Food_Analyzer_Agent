@@ -10,6 +10,7 @@
 
 ## 🎯 Features
 
+
 ✅ **AI-Powered Analysis** - LangGraph agent orchestrates intelligent multi-step food analysis
 ✅ **Mobile & Desktop Friendly** - Works on any device with a camera or file upload
 ✅ **Advanced OCR** - Multi-engine OCR with preprocessing (contrast, sharpening, deskewing)
