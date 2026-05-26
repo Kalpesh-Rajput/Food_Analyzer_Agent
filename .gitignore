@@ -9,3 +9,14 @@ __pycache__/
 
 backend/sample_images/
 frontend/node_modules/
+frontend/.next/
+frontend/.turbo/
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+frontend/out/
+frontend/.DS_Store
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.parcel-cache/
